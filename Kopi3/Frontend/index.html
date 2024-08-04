@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="module">
+        // Import environment variables
+        // const clientKey = import.meta.env.CLIENT_KEY;
+    
+        // Create a script element
+        const script = document.createElement('script');
+        script.src = "https://app.sandbox.midtrans.com/snap/snap.js";
+        script.setAttribute('data-client-key', "SB-Mid-client-4Vso9doyxF2yPByo");
+    
+        // Append the script to the head
+        document.head.appendChild(script);
+      </script>
+  </head>
+ 
+  <body>
+    <button id="pay-button">Pay!</button>
+ 
+    <script type="text/javascript">
+        (async function() {
+          var payButton = document.getElementById('pay-button');
+          try {
+            const transaction = await fetch('http://localhost:5000/generate-transaction', {
+              method: 'GET'
+            }).then(res => res.json());
+            console.log(transaction);
+            payButton.addEventListener('click', function () {
+              window.snap.pay(transaction.token);
+            });
+          } catch (error) {
+            console.error('Error fetching transaction:', error);
+          }
+        })();
+      </script>
+      
+  </body>
+</html>
